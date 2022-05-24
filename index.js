@@ -19,17 +19,19 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     await client.connect();
-    const collectionDatabase = client.db("person").collection("user");
+    const collectionDatabase = client.db("items").collection("item");
     // get and read all api
-    app.get("/services", async(req, res) => {
+    app.get("/items", async(req, res) => {
       const query = req.body;
       const cursor = collectionDatabase.find(query);
-      const service = await cursor.toArray();
-      res.send(service)
+      const result = await cursor.toArray();
+      res.send(result)
     });
     // Create api
-    app.post('/service', async(req,res)=>{
-      
+    app.post('/item', async(req,res)=>{
+      const query = req.body;
+      const result = await collectionDatabase.insertOne(query);
+      res.send(result);
     })
     // UPDATE api
     // DELETE API
