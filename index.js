@@ -43,7 +43,19 @@ async function run() {
     // UPDATE api
     
     // DELETE API
-  } finally {
+    app.delete("/item/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: ObjectId(id) };
+      const result = await collectionDatabase.deleteOne(filter);
+    
+      if (result.deletedCount === 1) {
+        console.log("Successfully deleted one document.", id);
+      } else {
+        console.log("No documents matched the query. Deleted 0 documents.", id);
+      }
+      res.send(result);
+    })}
+   finally {
     // await client.close();
   }
 }
